@@ -14,20 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
+
 
 Route::get('/dashboard', function () {
     return auth()->user();
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
 
-
+// Google
 
 Route::get('/login/google',[GoogleLogin::class,'redirect'])->name('login/google');
 Route::get('/login/google/callback',[GoogleLogin::class,'callback']);
+
+// GitHub
+
+Route::get('/login/github',[GoogleLogin::class,'GitHubRedirect'])->name('login/github');
+Route::get('/login/github/callback',[GoogleLogin::class,'GitHubCallback']);
 

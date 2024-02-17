@@ -12,6 +12,9 @@ class GoogleLogin extends Controller
     public function redirect(){
         return Socialite::driver('google')->redirect();
     }
+
+
+
     public function callback(){
         $user = Socialite::driver('google')->user();
 
@@ -32,5 +35,32 @@ class GoogleLogin extends Controller
         return redirect('/dashboard');
     }
 
+    // GitHub 
+
+    public function GitHubRedirect(){
+        return Socialite::driver('github')->redirect();
+    }
+
+
+    
+    public function GitHubCallback(){
+        $user = Socialite::driver('github')->user();
+
+        //Find User
+        $findUser = User::where('github_id', $user->id)->first();
+
+        if($findUser){
+            Auth::login($findUser);
+        }else{
+            $newUser = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'github_id'=> $user->id
+            ]);
+            Auth::login($newUser);
+        }
+
+        return redirect('/dashboard');
+    }
 
 }
